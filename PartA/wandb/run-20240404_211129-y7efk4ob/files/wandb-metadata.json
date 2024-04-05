@@ -1,0 +1,36 @@
+{
+    "os": "macOS-14.4-arm64-arm-64bit",
+    "python": "3.11.5",
+    "heartbeatAt": "2024-04-04T15:41:30.496755",
+    "startedAt": "2024-04-04T15:41:29.350675",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "Pratik/DeepLearning/DL_Assignment_2/PartA/part-a.ipynb",
+    "codePathLocal": null,
+    "root": "/Users/pratikkadlak/Pratik/DeepLearning/DL_Assignment_2",
+    "git": {
+        "remote": "https://github.com/pratik-kadlak/Convolution-Neural-Network.git",
+        "commit": "68732b6ecd751897b90b66beec59c7b7c23417d6"
+    },
+    "email": "141506069+pratik-kadlak@users.noreply.github.com",
+    "host": "Pratiks-Air.iitmlan",
+    "username": "pratikkadlak",
+    "executable": "/Users/pratikkadlak/anaconda3/bin/python",
+    "cpu_count": 8,
+    "cpu_count_logical": 8,
+    "disk": {
+        "/": {
+            "total": 228.27386474609375,
+            "used": 97.37388229370117
+        }
+    },
+    "gpuapple": {
+        "type": "arm",
+        "vendor": "Apple"
+    },
+    "memory": {
+        "total": 8.0
+    }
+}
