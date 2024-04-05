@@ -1,0 +1,27 @@
+wandb_version: 1
+
+activation_func:
+  value: SiLU
+batch_normalization:
+  value: 'No'
+data_augment:
+  value: 'Yes'
+dropout:
+  value: 'No'
+epoch:
+  value: 5
+filter_org:
+  value: same
+filter_size:
+  value:
+  - 5
+  - 5
+  - 5
+  - 5
+  - 5
+hidden_units:
+  value: 128
+num_filters:
+  value: 32
+prob:
+  value: 0.2
