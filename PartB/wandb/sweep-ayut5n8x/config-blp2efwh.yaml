@@ -1,0 +1,16 @@
+wandb_version: 1
+
+activation_func:
+  value: Mish
+data_augment:
+  value: 'No'
+dropout:
+  value: 'No'
+epoch:
+  value: 20
+hidden_units:
+  value: 1024
+optimizer:
+  value: Adam
+prob:
+  value: 0.3

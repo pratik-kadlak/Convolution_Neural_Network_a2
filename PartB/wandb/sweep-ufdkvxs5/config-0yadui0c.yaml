@@ -1,0 +1,16 @@
+wandb_version: 1
+
+activation_func:
+  value: ReLU
+data_augment:
+  value: 'Yes'
+dropout:
+  value: 'Yes'
+epoch:
+  value: 30
+hidden_units:
+  value: 512
+optimizer:
+  value: NAdam
+prob:
+  value: 0.2

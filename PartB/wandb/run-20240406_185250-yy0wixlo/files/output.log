@@ -1,0 +1,18 @@
+/Users/pratikkadlak/anaconda3/lib/python3.11/site-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+  warnings.warn(
+/Users/pratikkadlak/anaconda3/lib/python3.11/site-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=GoogLeNet_Weights.IMAGENET1K_V1`. You can also use `weights=GoogLeNet_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+python(2637) MallocStackLogging: can't turn off malloc stack logging because it was not enabled.
+python(2640) MallocStackLogging: can't turn off malloc stack logging because it was not enabled.
+python(2643) MallocStackLogging: can't turn off malloc stack logging because it was not enabled.
+python(2644) MallocStackLogging: can't turn off malloc stack logging because it was not enabled.
+Traceback (most recent call last):
+  File "/var/folders/60/b9tm89f94198l_68mph00gyw0000gn/T/ipykernel_1543/254422479.py", line 10, in train
+    train_model(config)
+  File "/var/folders/60/b9tm89f94198l_68mph00gyw0000gn/T/ipykernel_1543/4006542248.py", line 102, in train_model
+    test_accuracy = evaluate_model(classifier, test_loader)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/folders/60/b9tm89f94198l_68mph00gyw0000gn/T/ipykernel_1543/4006542248.py", line 39, in evaluate_model
+    features = googlenet(images).squeeze()  # Extract features using GoogLeNet
+               ^^^^^^^^^
+NameError: name 'googlenet' is not defined
