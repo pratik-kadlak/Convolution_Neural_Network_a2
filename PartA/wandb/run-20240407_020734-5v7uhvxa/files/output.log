@@ -1,0 +1,4 @@
+Epoch: 0
+------
+Train Loss:  2.24225 | Train Acc:  19.70%
+Val Loss: 2.2757, Val Acc: 16.5675

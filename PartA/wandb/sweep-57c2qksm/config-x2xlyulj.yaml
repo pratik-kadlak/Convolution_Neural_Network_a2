@@ -1,0 +1,27 @@
+wandb_version: 1
+
+activation_func:
+  value: ReLU
+batch_normalization:
+  value: 'Yes'
+data_augment:
+  value: 'No'
+dropout:
+  value: 'Yes'
+epoch:
+  value: 10
+filter_org:
+  value: same
+filter_size:
+  value:
+  - 3
+  - 3
+  - 3
+  - 3
+  - 3
+hidden_units:
+  value: 128
+num_filters:
+  value: 32
+prob:
+  value: 0.3
