@@ -1,9 +1,0 @@
-Traceback (most recent call last):
-  File "/var/folders/60/b9tm89f94198l_68mph00gyw0000gn/T/ipykernel_4964/1330241247.py", line 10, in train
-    train_cnn(train_loader, val_loader, config)
-  File "/var/folders/60/b9tm89f94198l_68mph00gyw0000gn/T/ipykernel_4964/1158635883.py", line 63, in train_cnn
-    accuracy_fn=accuracy_fn,
-                ^^^^^^^^^^^
-NameError: name 'accuracy_fn' is not defined
-Epoch: 0
-------
