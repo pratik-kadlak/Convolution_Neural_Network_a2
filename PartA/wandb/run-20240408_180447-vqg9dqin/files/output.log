@@ -1,0 +1,3 @@
+usage: train_PartA.py [-h] [-wp WANDB_PROJECT] [-we WANDB_ENTITY] [-e EPOCHS] [-a {ReLU,GELU,SiLU,Mish}] [-nf NUM_FILTERS] [-fo {same,half,double}] [-da {Yes,No}]
+                      [-bn {Yes,No}] [-d {Yes,No}] [-p {0.2,0.3}] [-fs {[3,3,3,3,3],[4,4,4,4,4],[5,5,5,5,5]}] [-hu {128,256}]
+train_PartA.py: error: argument -hu/--hidden_units: invalid choice: '256' (choose from 128, 256)

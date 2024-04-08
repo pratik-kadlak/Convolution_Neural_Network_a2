@@ -1,11 +1,6 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
 import wandb
 import numpy as np
+import ast
 import random
 import copy
 import torch
@@ -16,12 +11,12 @@ import matplotlib.pyplot as plt
 from torchvision.datasets import ImageFolder
 from torch.utils.data import DataLoader, TensorDataset, ConcatDataset
 import torchvision.transforms as transforms
+import argparse
 
+wandb.login()
+wandb.init(project="DL_Assignment_2")
 
 # ## Question 2
-
-# In[2]:
-
 
 def read_images(path):
     """
@@ -54,9 +49,6 @@ def read_images(path):
     return X, y
 
 
-# In[3]:
-
-
 def plot_image(image_matrix):
     """
     Display an image using Matplotlib.
@@ -76,9 +68,6 @@ def plot_image(image_matrix):
     plt.imshow(image)
     plt.axis('off')  # Turn off axis labels
     plt.show()
-
-
-# In[4]:
 
 
 def train_val_split(train_size:float = 0.2):
@@ -129,9 +118,6 @@ def train_val_split(train_size:float = 0.2):
     return X, X_val, y, y_val
 
 
-# In[5]:
-
-
 def shuffle_data(X, y):
     """
     Shuffle data samples and their corresponding labels.
@@ -161,9 +147,6 @@ def shuffle_data(X, y):
     return X_shuffled, y_shuffled
 
 
-# In[6]:
-
-
 def create_dataloader(X, y, batch_size, shuffle=True):
     """
     Create a PyTorch DataLoader from input data and labels.
@@ -188,9 +171,6 @@ def create_dataloader(X, y, batch_size, shuffle=True):
     loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
     
     return loader
-
-
-# In[7]:
 
 
 def augment_data(train_loader):
@@ -223,9 +203,6 @@ def augment_data(train_loader):
     return aug_loader
 
 
-# In[17]:
-
-
 def accuracy_fn(y_true, y_pred):
     """
     Calculate the accuracy of predictions.
@@ -240,9 +217,6 @@ def accuracy_fn(y_true, y_pred):
     correct = torch.eq(y_true, y_pred).sum().item()
     acc = (correct/len(y_pred)) * 100
     return acc
-
-
-# In[10]:
 
 
 # Getting GPU access if available 
@@ -303,9 +277,6 @@ def train_step(model:torch.nn.Module,
     return train_loss, train_acc
 
 
-# In[11]:
-
-
 def test_step(model: torch.nn.Module,
               data_loader: torch.utils.data.DataLoader,
               loss_fn: torch.nn.Module,
@@ -352,10 +323,70 @@ def test_step(model: torch.nn.Module,
         return test_loss, test_acc
 
 
+def evaluate_model(model: torch.nn.Module, loss_fn):
+    """
+    Evaluate a trained model on the test data and print the test loss and accuracy.
+
+    Returns:
+    - test_loss (float): Test loss.
+    - test_acc (float): Test accuracy.
+    """
+    test_loss, test_acc = test_step(model,
+                                test_loader,
+                                loss_fn,
+                                accuracy_fn,
+                                device
+                      )
+    print(f"Test Loss: {test_loss:4f} | Test Acc: {test_acc:.4f}")
+    return test_loss, test_acc
+
+
+def predict_images(model:torch.nn.Module):
+    """
+    Randomly select and predict images from the test dataset using the trained model,
+    and display the images along with their true and predicted labels.
+
+    This function creates a grid layout with 10 rows and 3 columns to display 3 images
+    from each of the 10 classes in the test dataset.
+    """
+
+    # Create the grid layout
+    fig, axes = plt.subplots(10, 3, figsize=(10, 30))
+    
+    for label in range(10):
+        class_indices = np.where(y_test==label)[0]
+        # randomly select sample_per_class_val indices for validation
+        indices = np.random.choice(class_indices, 3, replace=False)
+        
+        for i in range(len(indices)):
+            input_tensor = torch.from_numpy(X_test[indices[i]]).unsqueeze(0)  # Add a batch dimension
+            input_tensor = input_tensor.to(device)
+            # Now you can pass the input tensor through your model
+            output = model(input_tensor)
+            
+            y_pred = output.argmax(dim=1)
+            y_pred = y_pred.to("cpu")
+            
+            # Convert the tensor to a NumPy array
+            y_pred = y_pred.detach().numpy()
+            
+            # Plot the image
+            ax = axes[label, i]
+            
+            image = X_test[indices[i]]
+            # Transpose the image array from (channels, height, width) to (height, width, channels) for Matplotlib
+            image = np.transpose(image, (1, 2, 0))
+
+            # Display the image using Matplotlib
+            ax.imshow(image)
+            ax.set_title(f"True: {class_names[y_test[indices[i]]]} \n, Predicted: {class_names[y_pred[0]]}")
+            ax.axis('off')  # Turn off axis labels  
+
+        wandb.log({"Predictions": wandb.Image(plt)})
+
+
+
 # # CNN Class
-
-# In[12]:
-
 
 class CNN(nn.Module):
     
@@ -484,82 +515,7 @@ class CNN(nn.Module):
         return x
 
 
-# # Reading Data
-
-# In[13]:
-
-
-train_path = "/Users/pratikkadlak/Pratik/DeepLearning/DL_Assignment_2/inaturalist_12K/train"
-test_path = "/Users/pratikkadlak/Pratik/DeepLearning/DL_Assignment_2/inaturalist_12K/val"
-
-# gets the data where X[i] and Y[i] are np arrays
-X_train, y_train = read_images(train_path)
-X_test, y_test = read_images(test_path)
-
-# splitting the train val data
-X_train, X_val, y_train, y_val = train_val_split(0.2) 
-
-# shuffling the data
-X_train, y_train = shuffle_data(X_train, y_train)
-X_val, y_val = shuffle_data(X_val, y_val)
-
-# creating dataloader for each set (train, val, test)
-train_loader = create_dataloader(X_train, y_train, 32)
-val_loader = create_dataloader(X_val, y_val, 32)
-test_loader = create_dataloader(X_test, y_test, 32)
-
-
-# ### This is my Sweep Config
-
-# In[14]:
-
-
-sweep_config = {
-"name": "CNN",
-"metric": {
-    "name":"val_accuracy",
-    "goal": "maximize"
-},
-"method": "bayes",
-"parameters": {
-        "epoch": {
-            "values": [5,10]
-        },
-        "num_filters": {
-            "values": [32, 64]
-        },
-        "activation_func": {
-            "values": ["ReLU", "GELU", "SiLU", "Mish"]
-        },
-        "filter_org": {
-            "values": ["same", "half", "double"]
-        },
-        "data_augment": {
-            "values": ["Yes", "No"]
-        },
-        "batch_normalization": {
-            "values": ["Yes", "No"]
-        },
-        "dropout": {
-            "values": ["Yes", "No"]
-        },
-        "prob": {
-            "values": [0.2, 0.3]
-        },
-        "filter_size": {
-            "values": [[3,3,3,3,3], [4,4,4,4,4], [5,5,5,5,5]]
-        },
-        "hidden_units": {
-            "values": [128, 256]
-        },
-    }
-}
-
-
-# In[15]:
-
-
-def train_cnn(train_loader, val_loader, config):
+def train_cnn(train_loader, val_loader, args):
     """
     Train a CNN model using the given training and validation loaders and configuration.
 
@@ -571,18 +527,18 @@ def train_cnn(train_loader, val_loader, config):
     Returns:
     - model (CNN): Trained CNN model.
     """
-    epochs = config.epoch
+    epochs = args.epochs
     in_channels = 3
     out_channels = 10
-    num_filters = [config.num_filters]
-    kernel_size = config.filter_size
-    activation_fn = config.activation_func
-    augment = config.data_augment
-    filter_org = config.filter_org
-    batch_norm = config.batch_normalization
-    dropout = config.dropout
-    prob = config.prob
-    hidden_units = config.hidden_units
+    num_filters = [args.num_filters]
+    kernel_size = ast.literal_eval(args.filter_size)
+    activation_fn = args.activation
+    augment = args.augment
+    filter_org = args.filter_org
+    batch_norm = args.batch_norm
+    dropout = args.dropout
+    prob = args.prob
+    hidden_units = args.hidden_units
 
     for i in range(4):
         last_value = num_filters[-1]
@@ -639,123 +595,16 @@ def train_cnn(train_loader, val_loader, config):
         print(f"Val Loss: {val_loss:.4f}, Val Acc: {val_accuracy:.4f}")
         wandb.log({"val_accuracy":val_accuracy, 'val_loss':val_loss, 'train_accuracy':train_accuracy, 'train_loss':train_loss})
 
+    if args.mode == "plot":
+        evaluate_model(model, loss_fn=loss_fn)
+        predict_images(model)
+
     wandb.run.name = run_name
     wandb.run.save()
     wandb.run.finish()
     
     return model
 
-
-# ### If you want to run sweep run the below cell
-
-# In[18]:
-
-
-def train():
-    """
-    Initialize a Weights & Biases run and train a CNN model using the configured hyperparameters.
-
-    Uses the `wandb.sweep` function to create a sweep with the specified configuration,
-    then runs the training process using the `wandb.agent` function.
-    """
-    with wandb.init(project="DL_Assignment_2") as run:
-        config = wandb.config
-        train_cnn(train_loader, val_loader, config)
-
-sweep_id = wandb.sweep(sweep_config, project = "DL_Assignment_2")
-wandb.agent(sweep_id, train, count = 1)
-wandb.finish()
-
-
-# ## Question 4
-
-# In[19]:
-
-
-# these are my best parameters
-epochs = 10
-in_channels = 3
-out_channels = 10
-num_filters = [32,32,32,32,32]
-kernel_size = [3,3,3,3,3]
-activation_fn = "ReLU"
-augment = "No"
-# filter_org = "half"
-batch_norm = "Yes"
-dropout = "Yes"
-prob = 0.3
-hidden_units = 128
-
-# creating the instance of the model with the best parameters
-model = CNN (
-            in_channels=in_channels, 
-            out_channels=out_channels, 
-            num_filters=num_filters, 
-            kernel_size=kernel_size, 
-            activation_fn=activation_fn,
-            apply_batchnorm=batch_norm,
-            apply_dropout=dropout,
-            prob=prob,
-            hidden_units=hidden_units   
-        )
-
-model.to(device)
-
-# setting up Loss and Optimizer
-loss_fn = nn.CrossEntropyLoss()
-optimizer = torch.optim.Adam(params=model.parameters(), lr=0.001)
-# optimizer = torch.optim.SGD(params=model.parameters(), lr=0.001)
-
-# training the model
-for epoch in tqdm(range(epochs)):
-    print(f"Epoch: {epoch}\n------")
-    train_loss, train_accuracy = train_step(
-                                     model=model,
-                                     data_loader=train_loader,
-                                     loss_fn=loss_fn,
-                                     optimizer=optimizer,
-                                     accuracy_fn=accuracy_fn,
-                                     device=device
-                                 )
-
-    print(f"Train Loss: {train_loss: .5f} | Train Acc: {train_accuracy: .2f}%")
-
-    val_loss, val_accuracy = test_step(
-                                model=model,
-                                data_loader=val_loader,
-                                loss_fn=loss_fn,
-                                accuracy_fn=accuracy_fn,
-                                device=device
-                            )
-
-
-    print(f"Val Loss: {val_loss:.4f}, Val Acc: {val_accuracy:.4f}")
-
-
-# In[20]:
-
-
-def evaluate_model():
-    """
-    Evaluate a trained model on the test data and print the test loss and accuracy.
-
-    Returns:
-    - test_loss (float): Test loss.
-    - test_acc (float): Test accuracy.
-    """
-    test_loss, test_acc = test_step(model,
-                                test_loader,
-                                loss_fn,
-                                accuracy_fn,
-                                device
-                      )
-    print(f"Test Loss: {test_loss:4f} | Test Acc: {test_acc:.4f}")
-    return test_loss, test_acc
-
-evaluate_model()
-
-
-# In[21]:
 
 
 class_names = {
@@ -771,56 +620,52 @@ class_names = {
     9 : "Reptilia"
 }
 
+# Create an ArgumentParser object
+parser = argparse.ArgumentParser(description='Description of your script.')
 
-# In[22]:
-
-
-def predict_images():
-    """
-    Randomly select and predict images from the test dataset using the trained model,
-    and display the images along with their true and predicted labels.
-
-    This function creates a grid layout with 10 rows and 3 columns to display 3 images
-    from each of the 10 classes in the test dataset.
-    """
-
-    # Create the grid layout
-    fig, axes = plt.subplots(10, 3, figsize=(10, 30))
-    
-    for label in range(10):
-        class_indices = np.where(y_test==label)[0]
-        # randomly select sample_per_class_val indices for validation
-        indices = np.random.choice(class_indices, 3, replace=False)
-        
-        for i in range(len(indices)):
-            input_tensor = torch.from_numpy(X_test[indices[i]]).unsqueeze(0)  # Add a batch dimension
-            input_tensor = input_tensor.to(device)
-            # Now you can pass the input tensor through your model
-            output = model(input_tensor)
-            
-            y_pred = output.argmax(dim=1)
-            y_pred = y_pred.to("cpu")
-            
-            # Convert the tensor to a NumPy array
-            y_pred = y_pred.detach().numpy()
-            
-            # Plot the image
-            ax = axes[label, i]
-            
-            image = X_test[indices[i]]
-            # Transpose the image array from (channels, height, width) to (height, width, channels) for Matplotlib
-            image = np.transpose(image, (1, 2, 0))
-
-            # Display the image using Matplotlib
-            ax.imshow(image)
-            ax.set_title(f"True: {class_names[y_test[indices[i]]]} \n, Predicted: {class_names[y_pred[0]]}")
-            ax.axis('off')  # Turn off axis labels  
-            
-predict_images()
+# Add arguments to the parser
+parser.add_argument('-wp', '--wandb_project', type=str, default='DL_Assignment_2', help='Project name used to track experiments in Weights & Biases dashboard.')
+parser.add_argument('-we', '--wandb_entity', type=str, default='space_monkeys', help='Wandb Entity used to track experiments in the Weights & Biases dashboard.')
+parser.add_argument('-e', '--epochs', type=int, default=10, help='Number of epochs to train neural network.')
+parser.add_argument('-a', '--activation', type=str, default='ReLU', choices=['ReLU', 'GELU', 'SiLU', 'Mish'], help='Choices: ["ReLU", "GELU", "SiLU", "Mish"]')
+parser.add_argument('-nf', '--num_filters', type=int, default=32, help='Number of filters in starting layer')
+parser.add_argument('-fo', '--filter_org', type=str, default='same', choices=['same', 'half', 'double'], help='Choices: ["same", "half", "double"]')
+parser.add_argument('-da', '--augment', type=str, default='No', choices=["Yes", "No"], help='Choices: ["Yes", "No"]')
+parser.add_argument('-bn', '--batch_norm', type=str, default='Yes', choices=["Yes", "No"], help='Choices: ["Yes", "No"]')
+parser.add_argument('-d', '--dropout', type=str, default='Yes', choices=['Yes', 'No'], help='Choices: ["Yes", "No"]')
+parser.add_argument('-p', '--prob', type=float, default=0.3, choices=[0.2, 0.3], help='Choices: [0.2, 0.3]')
+parser.add_argument('-fs', '--filter_size', type=str, default='[3,3,3,3,3]', choices=['[3,3,3,3,3]', '[4,4,4,4,4]', '[5,5,5,5,5]'], help='Choices: ["[3,3,3,3,3]", "[4,4,4,4,4]", "[5,5,5,5,5]"]')
+parser.add_argument('-hu', '--hidden_units',type=int, default=128, choices=[128,256], help='Choices: [128, 256]')
+parser.add_argument('-tdp', '--train_dataset_path', type=str, help='Path to the train dataset.')
+parser.add_argument('-tep', '--test_dataset_path', type=str, help='Path to the test dataset.')
+parser.add_argument('-m', '--mode', type=str, default='normal', choices=['normal', 'plot'], help='Choices: ["plot", "best"]')
 
 
-# In[ ]:
+# example
+# python train_PartA.py -wp DL_Assignment_2 -we space_monkeys -e 10 -a ReLU -nf 32 -fo same -da No -bn Yes -d Yes -p 0.3 -fs '[3,3,3,3,3]' -hu 128 -tdp /path/to/train_dataset -tep /path/to/test_dataset -m best
 
+# Parse the command-line arguments
+args = parser.parse_args()
 
+# # Reading Data
+train_path = args.train_dataset_path
+test_path = args.test_dataset_path
 
+# gets the data where X[i] and Y[i] are np arrays
+X_train, y_train = read_images(train_path)
+X_test, y_test = read_images(test_path)
+
+# splitting the train val data
+X_train, X_val, y_train, y_val = train_val_split(0.2) 
+
+# shuffling the data
+X_train, y_train = shuffle_data(X_train, y_train)
+X_val, y_val = shuffle_data(X_val, y_val)
+
+# creating dataloader for each set (train, val, test)
+train_loader = create_dataloader(X_train, y_train, 32)
+val_loader = create_dataloader(X_val, y_val, 32)
+test_loader = create_dataloader(X_test, y_test, 32)
+
+train_cnn(train_loader=train_loader, val_loader=val_loader, args=args)
 

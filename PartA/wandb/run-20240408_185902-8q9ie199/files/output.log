@@ -1,0 +1,60 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████| 313/313 [01:16<00:00,  4.08it/s]
+
+
+
+
+
+
+
+
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 63/63 [00:16<00:00,  3.88it/s]
+  0%|                                                                                                                          | 0/1 [00:00<?, ?it/s]
+Epoch: 0
+------
+Train Loss:  2.29091 | Train Acc:  13.03%
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:28<00:00, 28.98s/it]
+Traceback (most recent call last):
+  File "/Users/pratikkadlak/Documents/Convolution_Neural_Network_a2/PartA/train_PartA.py", line 672, in <module>
+    train_cnn(train_loader=train_loader, val_loader=val_loader, args=args)
+  File "/Users/pratikkadlak/Documents/Convolution_Neural_Network_a2/PartA/train_PartA.py", line 597, in train_cnn
+    evaluate_model(model)
+TypeError: evaluate_model() missing 1 required positional argument: 'loss_fn'

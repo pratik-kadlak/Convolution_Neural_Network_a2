@@ -1,0 +1,59 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████| 313/313 [01:16<00:00,  4.11it/s]
+Traceback (most recent call last):
+  File "/Users/pratikkadlak/Documents/Convolution_Neural_Network_a2/PartA/train_PartA.py", line 658, in <module>
+    X_test, y_test = read_images(test_path)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pratikkadlak/Documents/Convolution_Neural_Network_a2/PartA/train_PartA.py", line 34, in read_images
+    dataset = ImageFolder(path, transform=data_transform)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pratikkadlak/anaconda3/lib/python3.11/site-packages/torchvision/datasets/folder.py", line 309, in __init__
+    super().__init__(
+  File "/Users/pratikkadlak/anaconda3/lib/python3.11/site-packages/torchvision/datasets/folder.py", line 145, in __init__
+    samples = self.make_dataset(self.root, class_to_idx, extensions, is_valid_file)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pratikkadlak/anaconda3/lib/python3.11/site-packages/torchvision/datasets/folder.py", line 189, in make_dataset
+    return make_dataset(directory, class_to_idx, extensions=extensions, is_valid_file=is_valid_file)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pratikkadlak/anaconda3/lib/python3.11/site-packages/torchvision/datasets/folder.py", line 61, in make_dataset
+    directory = os.path.expanduser(directory)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen posixpath>", line 232, in expanduser
+TypeError: expected str, bytes or os.PathLike object, not NoneType

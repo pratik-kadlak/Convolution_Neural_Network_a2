@@ -1,0 +1,56 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 313/313 [01:19<00:00,  3.96it/s]
+
+
+
+
+
+
+
+
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 63/63 [00:16<00:00,  3.83it/s]
+Traceback (most recent call last):
+  File "/Users/pratikkadlak/Documents/Convolution_Neural_Network_a2/PartA/train_PartA.py", line 662, in <module>
+  File "/Users/pratikkadlak/Documents/Convolution_Neural_Network_a2/PartA/train_PartA.py", line 541, in train_cnn
+    last_value = num_filters[-1]
+                 ~~~~~~~~~~~^^^^
+TypeError: 'int' object is not subscriptable

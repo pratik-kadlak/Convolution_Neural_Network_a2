@@ -7,6 +7,7 @@ This repository contains code and resources for building a small CNN model with 
 
 ## Contents
 - `PartA/part-a.ipynb/`: Directory containing the Jupyter Notebook with the CNN model implementation and hyperparameter tuning.
+- `train_PartA.py`: Contains Model that runs on the parameters given by the user
 - `requirements.txt`: List of required Python packages.
 
 ## Getting Started
@@ -36,6 +37,29 @@ pip install -r requirements.txt
 ## Hyperparameter Tuning
 Use W&B Sweeps for automated hyperparameter tuning. Modify `sweep_config.yaml` in the notebook to define the search space for hyperparameters.
 
+## Supported Arguments
+Here's a table representation of the argparse arguments for your project:
+
+| Argument              | Shorthand | Type     | Default         | Choices                                          | Description                                                                                                      |
+|-----------------------|-----------|----------|-----------------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------------|
+| wandb_project         | -wp       | str      | DL_Assignment_2 | -                                                | Project name used to track experiments in Weights & Biases dashboard.                                            |
+| wandb_entity          | -we       | str      | space_monkeys   | -                                                | Wandb Entity used to track experiments in the Weights & Biases dashboard.                                         |
+| epochs                | -e        | int      | 10              | -                                                | Number of epochs to train neural network.                                                                         |
+| activation            | -a        | str      | ReLU            | ReLU, GELU, SiLU, Mish                           | Choices for activation function: "ReLU", "GELU", "SiLU", "Mish".                                                 |
+| num_filters           | -nf       | int      | 32              | -                                                | Number of filters in starting layer.                                                                              |
+| filter_org            | -fo       | str      | same            | same, half, double                               | Choices for filter organization: "same", "half", "double".                                                       |
+| augment               | -da       | str      | No              | Yes, No                                          | Choices for data augmentation: "Yes", "No".                                                                       |
+| batch_norm            | -bn       | str      | Yes             | Yes, No                                          | Choices for batch normalization: "Yes", "No".                                                                     |
+| dropout               | -d        | str      | Yes             | Yes, No                                          | Choices for dropout: "Yes", "No".                                                                                 |
+| prob                  | -p        | float    | 0.3             | 0.2, 0.3                                         | Choices for dropout probability: 0.2, 0.3.                                                                        |
+| filter_size           | -fs       | str      | [3,3,3,3,3]     | [3,3,3,3,3], [4,4,4,4,4], [5,5,5,5,5]            | Choices for filter size: "[3,3,3,3,3]", "[4,4,4,4,4]", "[5,5,5,5,5]".                                           |
+| hidden_units          | -hu       | int      | 128             | 128, 256                                         | Choices for hidden units: 128, 256.                                                                              |
+| train_dataset_path    | -tdp      | str      | -               | -                                                | Path to the train dataset.                                                                                       |
+| test_dataset_path     | -tep      | str      | -               | -                                                | Path to the test dataset.                                                                                        |
+| mode                  | -m        | str      | normal          | normal, plot                                     | Choices for mode: "normal", "plot".  |
+
+Example: `python train_PartA.py -wp DL_Assignment_2 -we space_monkeys -e 10 -a ReLU -nf 32 -fo same -da No -bn Yes -d Yes -p 0.3 -fs '[3,3,3,3,3]' -hu 128 -tdp /path/to/train -tep path/to/test -m best`
+
 # Part B
 ## GoogleNet on iNaturalist Dataset
 
@@ -62,6 +86,7 @@ This project explores the usage of the GoogleNet pre-trained model on the iNatur
 
 ### File Structure
 - `part-b.ipynb.ipynb`: Jupyter Notebook containing the code for the models and experiments.
+- `train_PartB.py`: Googlenet model run on parameters passed by command line
 - `requirements.txt`: File listing the required Python libraries and versions.
 
 ### Running the Code
@@ -72,6 +97,26 @@ This project explores the usage of the GoogleNet pre-trained model on the iNatur
 ### Results and Analysis
 - The notebook includes detailed results and analysis for each model variant.
 - Metrics such as accuracy, loss, and model performance are evaluated.
+
+### Supported Commands
+Here's the GitHub markdown table for the argparse arguments:
+
+| Argument              | Shorthand | Type   | Default        | Choices               | Description                                                                                               |
+|-----------------------|-----------|--------|----------------|-----------------------|-----------------------------------------------------------------------------------------------------------|
+| --wandb_project       | -wp       | str    | DL_Assignment_2 |                      | Project name used to track experiments in Weights & Biases dashboard.                                      |
+| --wandb_entity        | -we       | str    | space_monkeys  |                      | Wandb Entity used to track experiments in the Weights & Biases dashboard.                                  |
+| --epoch               | -e        | int    | 10             | 10, 20, 30            | Number of epochs to train neural network.                                                                 |
+| --batch_size          | -b        | int    | 32             | 16, 32, 64            | Batch Size.                                                                                               |
+| --activation_func     | -a        | str    | ReLU           | ReLU, GELU, SiLU, Mish | Choices for activation function: "ReLU", "GELU", "SiLU", "Mish".                                          |
+| --data_augment        | -da       | str    | No             | Yes, No                | Whether to apply data augmentation or not.                                                                 |
+| --dropout             | -d        | str    | No             | Yes, No                | Whether to apply dropout or not.                                                                          |
+| --prob                | -p        | float  | 0.2            | 0.2, 0.3               | Probability value for dropout.                                                                            |
+| --hidden_units        | -hu       | int    | 256            | 256, 512, 1024        | Number of hidden units.                                                                                    |
+| --optimizer           | -o        | str    | Adam           | SGD, Adam, NAdam, RMSprop | Optimizer choice: "SGD", "Adam", "NAdam", "RMSprop".                                                      |
+| --train_dataset_path  | -tdp      | str    |                |                       | Path to the train dataset.                                                                                 |
+| --test_dataset_path   | -tep      | str    |                |                       | Path to the test dataset.                                                                                  |
+
+Example: `python train_PartB.py -wp My_Project -we My_Entity -e 20 -b 64 -a Mish -da Yes -d Yes -p 0.2 -hu 512 -o Adam -tdp /path/to/train_data -tep /path/to/test_data`
 
 ### Future Work
 - Explore additional model variants and architectures for better performance.

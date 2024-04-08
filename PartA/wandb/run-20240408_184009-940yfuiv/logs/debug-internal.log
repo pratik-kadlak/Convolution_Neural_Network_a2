@@ -1,0 +1,195 @@
+2024-04-08 18:40:09,677 INFO    StreamThr :5116 [internal.py:wandb_internal():86] W&B internal server running at pid: 5116, started at: 2024-04-08 18:40:09.676903
+2024-04-08 18:40:09,678 DEBUG   HandlerThread:5116 [handler.py:handle_request():146] handle_request: status
+2024-04-08 18:40:09,680 INFO    WriterThread:5116 [datastore.py:open_for_write():87] open: /Users/pratikkadlak/Documents/Convolution_Neural_Network_a2/PartA/wandb/run-20240408_184009-940yfuiv/run-940yfuiv.wandb
+2024-04-08 18:40:09,680 DEBUG   SenderThread:5116 [sender.py:send():378] send: header
+2024-04-08 18:40:09,697 DEBUG   SenderThread:5116 [sender.py:send():378] send: run
+2024-04-08 18:40:10,356 INFO    SenderThread:5116 [dir_watcher.py:__init__():211] watching files in: /Users/pratikkadlak/Documents/Convolution_Neural_Network_a2/PartA/wandb/run-20240408_184009-940yfuiv/files
+2024-04-08 18:40:10,356 INFO    SenderThread:5116 [sender.py:_start_run_threads():1099] run started: 940yfuiv with start time 1712581809.677077
+2024-04-08 18:40:10,366 DEBUG   HandlerThread:5116 [handler.py:handle_request():146] handle_request: check_version
+2024-04-08 18:40:10,367 DEBUG   SenderThread:5116 [sender.py:send_request():405] send_request: check_version
+2024-04-08 18:40:10,453 DEBUG   HandlerThread:5116 [handler.py:handle_request():146] handle_request: run_start
+2024-04-08 18:40:10,459 DEBUG   HandlerThread:5116 [system_info.py:__init__():26] System info init
+2024-04-08 18:40:10,459 DEBUG   HandlerThread:5116 [system_info.py:__init__():41] System info init done
+2024-04-08 18:40:10,459 INFO    HandlerThread:5116 [system_monitor.py:start():194] Starting system monitor
+2024-04-08 18:40:10,459 INFO    SystemMonitor:5116 [system_monitor.py:_start():158] Starting system asset monitoring threads
+2024-04-08 18:40:10,459 INFO    HandlerThread:5116 [system_monitor.py:probe():214] Collecting system info
+2024-04-08 18:40:10,459 INFO    SystemMonitor:5116 [interfaces.py:start():190] Started cpu monitoring
+2024-04-08 18:40:10,459 DEBUG   HandlerThread:5116 [system_info.py:probe():150] Probing system
+2024-04-08 18:40:10,460 INFO    SystemMonitor:5116 [interfaces.py:start():190] Started disk monitoring
+2024-04-08 18:40:10,461 INFO    SystemMonitor:5116 [interfaces.py:start():190] Started gpuapple monitoring
+2024-04-08 18:40:10,462 INFO    SystemMonitor:5116 [interfaces.py:start():190] Started memory monitoring
+2024-04-08 18:40:10,463 INFO    SystemMonitor:5116 [interfaces.py:start():190] Started network monitoring
+2024-04-08 18:40:10,466 DEBUG   HandlerThread:5116 [system_info.py:_probe_git():135] Probing git
+2024-04-08 18:40:10,484 DEBUG   HandlerThread:5116 [system_info.py:_probe_git():143] Probing git done
+2024-04-08 18:40:10,484 DEBUG   HandlerThread:5116 [system_info.py:probe():198] Probing system done
+2024-04-08 18:40:10,484 DEBUG   HandlerThread:5116 [system_monitor.py:probe():223] {'os': 'macOS-14.4-arm64-arm-64bit', 'python': '3.11.5', 'heartbeatAt': '2024-04-08T13:10:10.459964', 'startedAt': '2024-04-08T13:10:09.670510', 'docker': None, 'cuda': None, 'args': ('-wp', 'DL_Assignment_2', '-we', 'space_monkeys', '-e', '10', '-a', 'ReLU', '-nf', '32', '-fo', 'same', '-da', 'No', '-bn', 'Yes', '-d', 'Yes', '-p', '0.3', '-fs', '[3,3,3,3,3]', '-hu', '128', '-tdp', '/Users/pratikkadlak/Pratik/DeepLearning/DL_Assignment_2/inaturalist_12K/train'), 'state': 'running', 'program': '/Users/pratikkadlak/Documents/Convolution_Neural_Network_a2/PartA/train_PartA.py', 'codePathLocal': 'train_PartA.py', 'codePath': 'PartA/train_PartA.py', 'git': {'remote': 'https://github.com/pratik-kadlak/Convolution_Neural_Network_a2.git', 'commit': '92a943da2ca6b3dfa901b8050f36f777740591b4'}, 'email': '141506069+pratik-kadlak@users.noreply.github.com', 'root': '/Users/pratikkadlak/Documents/Convolution_Neural_Network_a2', 'host': 'Pratiks-Air.iitmlan', 'username': 'pratikkadlak', 'executable': '/Users/pratikkadlak/anaconda3/bin/python', 'cpu_count': 8, 'cpu_count_logical': 8, 'disk': {'/': {'total': 228.27386474609375, 'used': 99.74920272827148}}, 'gpuapple': {'type': 'arm', 'vendor': 'Apple'}, 'memory': {'total': 8.0}}
+2024-04-08 18:40:10,484 INFO    HandlerThread:5116 [system_monitor.py:probe():224] Finished collecting system info
+2024-04-08 18:40:10,484 INFO    HandlerThread:5116 [system_monitor.py:probe():227] Publishing system info
+2024-04-08 18:40:10,484 DEBUG   HandlerThread:5116 [system_info.py:_save_conda():207] Saving list of conda packages installed into the current environment
+2024-04-08 18:40:11,362 INFO    Thread-12 :5116 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/pratikkadlak/Documents/Convolution_Neural_Network_a2/PartA/wandb/run-20240408_184009-940yfuiv/files/conda-environment.yaml
+2024-04-08 18:40:13,709 DEBUG   HandlerThread:5116 [system_info.py:_save_conda():219] Saving conda packages done
+2024-04-08 18:40:13,710 INFO    HandlerThread:5116 [system_monitor.py:probe():229] Finished publishing system info
+2024-04-08 18:40:13,717 DEBUG   SenderThread:5116 [sender.py:send():378] send: files
+2024-04-08 18:40:13,717 INFO    SenderThread:5116 [sender.py:_save_file():1365] saving file wandb-metadata.json with policy now
+2024-04-08 18:40:13,867 DEBUG   HandlerThread:5116 [handler.py:handle_request():146] handle_request: python_packages
+2024-04-08 18:40:13,867 DEBUG   SenderThread:5116 [sender.py:send_request():405] send_request: python_packages
+2024-04-08 18:40:13,868 DEBUG   HandlerThread:5116 [handler.py:handle_request():146] handle_request: stop_status
+2024-04-08 18:40:13,868 DEBUG   SenderThread:5116 [sender.py:send_request():405] send_request: stop_status
+2024-04-08 18:40:13,868 DEBUG   HandlerThread:5116 [handler.py:handle_request():146] handle_request: internal_messages
+2024-04-08 18:40:14,307 DEBUG   SenderThread:5116 [sender.py:send():378] send: telemetry
+2024-04-08 18:40:14,377 INFO    Thread-12 :5116 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/pratikkadlak/Documents/Convolution_Neural_Network_a2/PartA/wandb/run-20240408_184009-940yfuiv/files/conda-environment.yaml
+2024-04-08 18:40:14,377 INFO    Thread-12 :5116 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/pratikkadlak/Documents/Convolution_Neural_Network_a2/PartA/wandb/run-20240408_184009-940yfuiv/files/output.log
+2024-04-08 18:40:14,377 INFO    Thread-12 :5116 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/pratikkadlak/Documents/Convolution_Neural_Network_a2/PartA/wandb/run-20240408_184009-940yfuiv/files/wandb-metadata.json
+2024-04-08 18:40:14,377 INFO    Thread-12 :5116 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/pratikkadlak/Documents/Convolution_Neural_Network_a2/PartA/wandb/run-20240408_184009-940yfuiv/files/requirements.txt
+2024-04-08 18:40:14,796 INFO    wandb-upload_0:5116 [upload_job.py:push():131] Uploaded file /var/folders/60/b9tm89f94198l_68mph00gyw0000gn/T/tmp4y_29juqwandb/3dfnjds2-wandb-metadata.json
+2024-04-08 18:40:14,891 DEBUG   HandlerThread:5116 [handler.py:handle_request():146] handle_request: status_report
+2024-04-08 18:40:16,388 INFO    Thread-12 :5116 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/pratikkadlak/Documents/Convolution_Neural_Network_a2/PartA/wandb/run-20240408_184009-940yfuiv/files/output.log
+2024-04-08 18:40:18,394 INFO    Thread-12 :5116 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/pratikkadlak/Documents/Convolution_Neural_Network_a2/PartA/wandb/run-20240408_184009-940yfuiv/files/output.log
+2024-04-08 18:40:20,041 DEBUG   HandlerThread:5116 [handler.py:handle_request():146] handle_request: status_report
+2024-04-08 18:40:20,403 INFO    Thread-12 :5116 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/pratikkadlak/Documents/Convolution_Neural_Network_a2/PartA/wandb/run-20240408_184009-940yfuiv/files/output.log
+2024-04-08 18:40:21,524 DEBUG   SenderThread:5116 [sender.py:send():378] send: exit
+2024-04-08 18:40:21,524 INFO    SenderThread:5116 [sender.py:send_exit():585] handling exit code: 255
+2024-04-08 18:40:21,525 INFO    SenderThread:5116 [sender.py:send_exit():587] handling runtime: 11
+2024-04-08 18:40:21,525 INFO    SenderThread:5116 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-04-08 18:40:21,525 INFO    SenderThread:5116 [sender.py:send_exit():593] send defer
+2024-04-08 18:40:21,525 DEBUG   HandlerThread:5116 [handler.py:handle_request():146] handle_request: defer
+2024-04-08 18:40:21,525 INFO    HandlerThread:5116 [handler.py:handle_request_defer():172] handle defer: 0
+2024-04-08 18:40:21,525 DEBUG   SenderThread:5116 [sender.py:send_request():405] send_request: defer
+2024-04-08 18:40:21,525 INFO    SenderThread:5116 [sender.py:send_request_defer():609] handle sender defer: 0
+2024-04-08 18:40:21,525 INFO    SenderThread:5116 [sender.py:transition_state():613] send defer: 1
+2024-04-08 18:40:21,525 DEBUG   HandlerThread:5116 [handler.py:handle_request():146] handle_request: defer
+2024-04-08 18:40:21,525 INFO    HandlerThread:5116 [handler.py:handle_request_defer():172] handle defer: 1
+2024-04-08 18:40:21,525 DEBUG   SenderThread:5116 [sender.py:send_request():405] send_request: defer
+2024-04-08 18:40:21,525 INFO    SenderThread:5116 [sender.py:send_request_defer():609] handle sender defer: 1
+2024-04-08 18:40:21,525 INFO    SenderThread:5116 [sender.py:transition_state():613] send defer: 2
+2024-04-08 18:40:21,525 DEBUG   HandlerThread:5116 [handler.py:handle_request():146] handle_request: defer
+2024-04-08 18:40:21,525 INFO    HandlerThread:5116 [handler.py:handle_request_defer():172] handle defer: 2
+2024-04-08 18:40:21,525 INFO    HandlerThread:5116 [system_monitor.py:finish():203] Stopping system monitor
+2024-04-08 18:40:21,525 DEBUG   SystemMonitor:5116 [system_monitor.py:_start():172] Starting system metrics aggregation loop
+2024-04-08 18:40:21,526 INFO    HandlerThread:5116 [interfaces.py:finish():202] Joined cpu monitor
+2024-04-08 18:40:21,526 DEBUG   SystemMonitor:5116 [system_monitor.py:_start():179] Finished system metrics aggregation loop
+2024-04-08 18:40:21,526 INFO    HandlerThread:5116 [interfaces.py:finish():202] Joined disk monitor
+2024-04-08 18:40:21,526 DEBUG   SystemMonitor:5116 [system_monitor.py:_start():183] Publishing last batch of metrics
+2024-04-08 18:40:21,526 INFO    HandlerThread:5116 [interfaces.py:finish():202] Joined gpuapple monitor
+2024-04-08 18:40:21,526 INFO    HandlerThread:5116 [interfaces.py:finish():202] Joined memory monitor
+2024-04-08 18:40:21,526 INFO    HandlerThread:5116 [interfaces.py:finish():202] Joined network monitor
+2024-04-08 18:40:21,526 DEBUG   SenderThread:5116 [sender.py:send_request():405] send_request: defer
+2024-04-08 18:40:21,526 INFO    SenderThread:5116 [sender.py:send_request_defer():609] handle sender defer: 2
+2024-04-08 18:40:21,526 INFO    SenderThread:5116 [sender.py:transition_state():613] send defer: 3
+2024-04-08 18:40:21,526 DEBUG   SenderThread:5116 [sender.py:send():378] send: telemetry
+2024-04-08 18:40:21,526 DEBUG   SenderThread:5116 [sender.py:send():378] send: stats
+2024-04-08 18:40:21,526 DEBUG   HandlerThread:5116 [handler.py:handle_request():146] handle_request: defer
+2024-04-08 18:40:21,526 INFO    HandlerThread:5116 [handler.py:handle_request_defer():172] handle defer: 3
+2024-04-08 18:40:21,526 DEBUG   SenderThread:5116 [sender.py:send_request():405] send_request: defer
+2024-04-08 18:40:21,526 INFO    SenderThread:5116 [sender.py:send_request_defer():609] handle sender defer: 3
+2024-04-08 18:40:21,526 INFO    SenderThread:5116 [sender.py:transition_state():613] send defer: 4
+2024-04-08 18:40:21,526 DEBUG   HandlerThread:5116 [handler.py:handle_request():146] handle_request: defer
+2024-04-08 18:40:21,526 INFO    HandlerThread:5116 [handler.py:handle_request_defer():172] handle defer: 4
+2024-04-08 18:40:21,527 DEBUG   SenderThread:5116 [sender.py:send_request():405] send_request: defer
+2024-04-08 18:40:21,527 INFO    SenderThread:5116 [sender.py:send_request_defer():609] handle sender defer: 4
+2024-04-08 18:40:21,527 INFO    SenderThread:5116 [sender.py:transition_state():613] send defer: 5
+2024-04-08 18:40:21,527 DEBUG   HandlerThread:5116 [handler.py:handle_request():146] handle_request: defer
+2024-04-08 18:40:21,527 INFO    HandlerThread:5116 [handler.py:handle_request_defer():172] handle defer: 5
+2024-04-08 18:40:21,527 DEBUG   SenderThread:5116 [sender.py:send():378] send: summary
+2024-04-08 18:40:21,527 INFO    SenderThread:5116 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-04-08 18:40:21,527 DEBUG   SenderThread:5116 [sender.py:send_request():405] send_request: defer
+2024-04-08 18:40:21,527 INFO    SenderThread:5116 [sender.py:send_request_defer():609] handle sender defer: 5
+2024-04-08 18:40:21,527 INFO    SenderThread:5116 [sender.py:transition_state():613] send defer: 6
+2024-04-08 18:40:21,527 DEBUG   HandlerThread:5116 [handler.py:handle_request():146] handle_request: defer
+2024-04-08 18:40:21,527 INFO    HandlerThread:5116 [handler.py:handle_request_defer():172] handle defer: 6
+2024-04-08 18:40:21,527 DEBUG   SenderThread:5116 [sender.py:send_request():405] send_request: defer
+2024-04-08 18:40:21,527 INFO    SenderThread:5116 [sender.py:send_request_defer():609] handle sender defer: 6
+2024-04-08 18:40:21,529 DEBUG   HandlerThread:5116 [handler.py:handle_request():146] handle_request: status_report
+2024-04-08 18:40:21,817 INFO    SenderThread:5116 [sender.py:transition_state():613] send defer: 7
+2024-04-08 18:40:21,817 DEBUG   HandlerThread:5116 [handler.py:handle_request():146] handle_request: defer
+2024-04-08 18:40:21,818 INFO    HandlerThread:5116 [handler.py:handle_request_defer():172] handle defer: 7
+2024-04-08 18:40:21,818 DEBUG   SenderThread:5116 [sender.py:send_request():405] send_request: defer
+2024-04-08 18:40:21,818 INFO    SenderThread:5116 [sender.py:send_request_defer():609] handle sender defer: 7
+2024-04-08 18:40:22,340 INFO    SenderThread:5116 [sender.py:transition_state():613] send defer: 8
+2024-04-08 18:40:22,340 DEBUG   HandlerThread:5116 [handler.py:handle_request():146] handle_request: defer
+2024-04-08 18:40:22,340 INFO    HandlerThread:5116 [handler.py:handle_request_defer():172] handle defer: 8
+2024-04-08 18:40:22,341 DEBUG   SenderThread:5116 [sender.py:send_request():405] send_request: defer
+2024-04-08 18:40:22,341 INFO    SenderThread:5116 [sender.py:send_request_defer():609] handle sender defer: 8
+2024-04-08 18:40:22,341 INFO    SenderThread:5116 [job_builder.py:build():298] Attempting to build job artifact
+2024-04-08 18:40:22,341 INFO    SenderThread:5116 [job_builder.py:_get_source_type():428] is repo sourced job
+2024-04-08 18:40:22,391 INFO    SenderThread:5116 [job_builder.py:build():404] adding wandb-job metadata file
+2024-04-08 18:40:22,393 INFO    SenderThread:5116 [sender.py:transition_state():613] send defer: 9
+2024-04-08 18:40:22,393 DEBUG   HandlerThread:5116 [handler.py:handle_request():146] handle_request: defer
+2024-04-08 18:40:22,393 DEBUG   SenderThread:5116 [sender.py:send():378] send: artifact
+2024-04-08 18:40:22,393 INFO    HandlerThread:5116 [handler.py:handle_request_defer():172] handle defer: 9
+2024-04-08 18:40:22,413 INFO    Thread-12 :5116 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/pratikkadlak/Documents/Convolution_Neural_Network_a2/PartA/wandb/run-20240408_184009-940yfuiv/files/output.log
+2024-04-08 18:40:22,413 INFO    Thread-12 :5116 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/pratikkadlak/Documents/Convolution_Neural_Network_a2/PartA/wandb/run-20240408_184009-940yfuiv/files/config.yaml
+2024-04-08 18:40:22,413 INFO    Thread-12 :5116 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/pratikkadlak/Documents/Convolution_Neural_Network_a2/PartA/wandb/run-20240408_184009-940yfuiv/files/wandb-summary.json
+2024-04-08 18:40:22,530 DEBUG   HandlerThread:5116 [handler.py:handle_request():146] handle_request: poll_exit
+2024-04-08 18:40:23,790 INFO    SenderThread:5116 [sender.py:send_artifact():1443] sent artifact job-https___github.com_pratik-kadlak_Convolution_Neural_Network_a2.git_PartA_train_PartA.py - {'id': 'QXJ0aWZhY3Q6Nzg4NzEyNjcw', 'state': 'COMMITTED', 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjE1OTgxMjgxNg==', 'latestArtifact': {'id': 'QXJ0aWZhY3Q6Nzg4NzI3MjE1', 'versionIndex': 1}}}
+2024-04-08 18:40:23,790 DEBUG   SenderThread:5116 [sender.py:send_request():405] send_request: defer
+2024-04-08 18:40:23,790 INFO    SenderThread:5116 [sender.py:send_request_defer():609] handle sender defer: 9
+2024-04-08 18:40:23,790 INFO    SenderThread:5116 [dir_watcher.py:finish():358] shutting down directory watcher
+2024-04-08 18:40:24,425 INFO    SenderThread:5116 [dir_watcher.py:finish():388] scan: /Users/pratikkadlak/Documents/Convolution_Neural_Network_a2/PartA/wandb/run-20240408_184009-940yfuiv/files
+2024-04-08 18:40:24,426 INFO    SenderThread:5116 [dir_watcher.py:finish():402] scan save: /Users/pratikkadlak/Documents/Convolution_Neural_Network_a2/PartA/wandb/run-20240408_184009-940yfuiv/files/requirements.txt requirements.txt
+2024-04-08 18:40:24,426 INFO    SenderThread:5116 [dir_watcher.py:finish():402] scan save: /Users/pratikkadlak/Documents/Convolution_Neural_Network_a2/PartA/wandb/run-20240408_184009-940yfuiv/files/output.log output.log
+2024-04-08 18:40:24,429 INFO    SenderThread:5116 [dir_watcher.py:finish():402] scan save: /Users/pratikkadlak/Documents/Convolution_Neural_Network_a2/PartA/wandb/run-20240408_184009-940yfuiv/files/config.yaml config.yaml
+2024-04-08 18:40:24,430 INFO    SenderThread:5116 [dir_watcher.py:finish():402] scan save: /Users/pratikkadlak/Documents/Convolution_Neural_Network_a2/PartA/wandb/run-20240408_184009-940yfuiv/files/wandb-summary.json wandb-summary.json
+2024-04-08 18:40:24,432 INFO    SenderThread:5116 [dir_watcher.py:finish():402] scan save: /Users/pratikkadlak/Documents/Convolution_Neural_Network_a2/PartA/wandb/run-20240408_184009-940yfuiv/files/conda-environment.yaml conda-environment.yaml
+2024-04-08 18:40:24,433 INFO    SenderThread:5116 [dir_watcher.py:finish():402] scan save: /Users/pratikkadlak/Documents/Convolution_Neural_Network_a2/PartA/wandb/run-20240408_184009-940yfuiv/files/wandb-metadata.json wandb-metadata.json
+2024-04-08 18:40:24,434 INFO    SenderThread:5116 [sender.py:transition_state():613] send defer: 10
+2024-04-08 18:40:24,435 DEBUG   SenderThread:5116 [sender.py:send_request():405] send_request: poll_exit
+2024-04-08 18:40:24,435 DEBUG   HandlerThread:5116 [handler.py:handle_request():146] handle_request: defer
+2024-04-08 18:40:24,436 INFO    HandlerThread:5116 [handler.py:handle_request_defer():172] handle defer: 10
+2024-04-08 18:40:24,437 DEBUG   SenderThread:5116 [sender.py:send_request():405] send_request: defer
+2024-04-08 18:40:24,437 INFO    SenderThread:5116 [sender.py:send_request_defer():609] handle sender defer: 10
+2024-04-08 18:40:24,437 INFO    SenderThread:5116 [file_pusher.py:finish():172] shutting down file pusher
+2024-04-08 18:40:24,540 DEBUG   HandlerThread:5116 [handler.py:handle_request():146] handle_request: poll_exit
+2024-04-08 18:40:24,541 DEBUG   SenderThread:5116 [sender.py:send_request():405] send_request: poll_exit
+2024-04-08 18:40:25,097 INFO    wandb-upload_0:5116 [upload_job.py:push():131] Uploaded file /Users/pratikkadlak/Documents/Convolution_Neural_Network_a2/PartA/wandb/run-20240408_184009-940yfuiv/files/requirements.txt
+2024-04-08 18:40:25,239 INFO    wandb-upload_1:5116 [upload_job.py:push():131] Uploaded file /Users/pratikkadlak/Documents/Convolution_Neural_Network_a2/PartA/wandb/run-20240408_184009-940yfuiv/files/output.log
+2024-04-08 18:40:25,265 INFO    wandb-upload_2:5116 [upload_job.py:push():131] Uploaded file /Users/pratikkadlak/Documents/Convolution_Neural_Network_a2/PartA/wandb/run-20240408_184009-940yfuiv/files/config.yaml
+2024-04-08 18:40:25,332 INFO    wandb-upload_3:5116 [upload_job.py:push():131] Uploaded file /Users/pratikkadlak/Documents/Convolution_Neural_Network_a2/PartA/wandb/run-20240408_184009-940yfuiv/files/wandb-summary.json
+2024-04-08 18:40:25,368 INFO    wandb-upload_4:5116 [upload_job.py:push():131] Uploaded file /Users/pratikkadlak/Documents/Convolution_Neural_Network_a2/PartA/wandb/run-20240408_184009-940yfuiv/files/conda-environment.yaml
+2024-04-08 18:40:25,547 DEBUG   HandlerThread:5116 [handler.py:handle_request():146] handle_request: poll_exit
+2024-04-08 18:40:25,548 DEBUG   SenderThread:5116 [sender.py:send_request():405] send_request: poll_exit
+2024-04-08 18:40:25,572 INFO    Thread-11 (_thread_body):5116 [sender.py:transition_state():613] send defer: 11
+2024-04-08 18:40:25,573 DEBUG   HandlerThread:5116 [handler.py:handle_request():146] handle_request: defer
+2024-04-08 18:40:25,573 INFO    HandlerThread:5116 [handler.py:handle_request_defer():172] handle defer: 11
+2024-04-08 18:40:25,573 DEBUG   SenderThread:5116 [sender.py:send_request():405] send_request: defer
+2024-04-08 18:40:25,573 INFO    SenderThread:5116 [sender.py:send_request_defer():609] handle sender defer: 11
+2024-04-08 18:40:25,574 INFO    SenderThread:5116 [file_pusher.py:join():178] waiting for file pusher
+2024-04-08 18:40:25,574 INFO    SenderThread:5116 [sender.py:transition_state():613] send defer: 12
+2024-04-08 18:40:25,574 DEBUG   HandlerThread:5116 [handler.py:handle_request():146] handle_request: defer
+2024-04-08 18:40:25,574 INFO    HandlerThread:5116 [handler.py:handle_request_defer():172] handle defer: 12
+2024-04-08 18:40:25,575 DEBUG   SenderThread:5116 [sender.py:send_request():405] send_request: defer
+2024-04-08 18:40:25,575 INFO    SenderThread:5116 [sender.py:send_request_defer():609] handle sender defer: 12
+2024-04-08 18:40:25,575 INFO    SenderThread:5116 [file_stream.py:finish():595] file stream finish called
+2024-04-08 18:40:25,876 INFO    SenderThread:5116 [file_stream.py:finish():599] file stream finish is done
+2024-04-08 18:40:25,876 INFO    SenderThread:5116 [sender.py:transition_state():613] send defer: 13
+2024-04-08 18:40:25,876 DEBUG   HandlerThread:5116 [handler.py:handle_request():146] handle_request: defer
+2024-04-08 18:40:25,876 INFO    HandlerThread:5116 [handler.py:handle_request_defer():172] handle defer: 13
+2024-04-08 18:40:25,876 DEBUG   SenderThread:5116 [sender.py:send_request():405] send_request: defer
+2024-04-08 18:40:25,876 INFO    SenderThread:5116 [sender.py:send_request_defer():609] handle sender defer: 13
+2024-04-08 18:40:25,876 INFO    SenderThread:5116 [sender.py:transition_state():613] send defer: 14
+2024-04-08 18:40:25,876 DEBUG   SenderThread:5116 [sender.py:send():378] send: final
+2024-04-08 18:40:25,876 DEBUG   HandlerThread:5116 [handler.py:handle_request():146] handle_request: defer
+2024-04-08 18:40:25,876 DEBUG   SenderThread:5116 [sender.py:send():378] send: footer
+2024-04-08 18:40:25,876 INFO    HandlerThread:5116 [handler.py:handle_request_defer():172] handle defer: 14
+2024-04-08 18:40:25,876 DEBUG   SenderThread:5116 [sender.py:send_request():405] send_request: defer
+2024-04-08 18:40:25,876 INFO    SenderThread:5116 [sender.py:send_request_defer():609] handle sender defer: 14
+2024-04-08 18:40:25,877 DEBUG   HandlerThread:5116 [handler.py:handle_request():146] handle_request: poll_exit
+2024-04-08 18:40:25,877 DEBUG   SenderThread:5116 [sender.py:send_request():405] send_request: poll_exit
+2024-04-08 18:40:25,877 DEBUG   HandlerThread:5116 [handler.py:handle_request():146] handle_request: poll_exit
+2024-04-08 18:40:25,877 DEBUG   SenderThread:5116 [sender.py:send_request():405] send_request: poll_exit
+2024-04-08 18:40:25,877 DEBUG   HandlerThread:5116 [handler.py:handle_request():146] handle_request: server_info
+2024-04-08 18:40:25,877 DEBUG   HandlerThread:5116 [handler.py:handle_request():146] handle_request: get_summary
+2024-04-08 18:40:25,877 DEBUG   SenderThread:5116 [sender.py:send_request():405] send_request: server_info
+2024-04-08 18:40:25,878 DEBUG   HandlerThread:5116 [handler.py:handle_request():146] handle_request: sampled_history
+2024-04-08 18:40:25,878 DEBUG   HandlerThread:5116 [handler.py:handle_request():146] handle_request: internal_messages
+2024-04-08 18:40:25,878 DEBUG   HandlerThread:5116 [handler.py:handle_request():146] handle_request: job_info
+2024-04-08 18:40:26,175 DEBUG   SenderThread:5116 [sender.py:send_request():405] send_request: job_info
+2024-04-08 18:40:26,175 INFO    MainThread:5116 [wandb_run.py:_footer_history_summary_info():3851] rendering history
+2024-04-08 18:40:26,176 INFO    MainThread:5116 [wandb_run.py:_footer_history_summary_info():3883] rendering summary
+2024-04-08 18:40:26,176 INFO    MainThread:5116 [wandb_run.py:_footer_sync_info():3810] logging synced files
+2024-04-08 18:40:26,176 DEBUG   HandlerThread:5116 [handler.py:handle_request():146] handle_request: shutdown
+2024-04-08 18:40:26,176 INFO    HandlerThread:5116 [handler.py:finish():869] shutting down handler
+2024-04-08 18:40:26,883 INFO    WriterThread:5116 [datastore.py:close():296] close: /Users/pratikkadlak/Documents/Convolution_Neural_Network_a2/PartA/wandb/run-20240408_184009-940yfuiv/run-940yfuiv.wandb
+2024-04-08 18:40:27,181 INFO    SenderThread:5116 [sender.py:finish():1521] shutting down sender
+2024-04-08 18:40:27,181 INFO    SenderThread:5116 [file_pusher.py:finish():172] shutting down file pusher
+2024-04-08 18:40:27,181 INFO    SenderThread:5116 [file_pusher.py:join():178] waiting for file pusher

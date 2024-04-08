@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[20]:
-
-
 import numpy as np
 import wandb
 import copy
@@ -17,10 +11,10 @@ import torchvision.models as models
 from torchvision.datasets import ImageFolder
 from torch.utils.data import DataLoader, TensorDataset, ConcatDataset
 import torchvision.transforms as transforms
+import argparse
 
-
-# In[3]:
-
+wandb.login()
+wandb.init(project="DL_Assignment_2")
 
 def read_images(path):
     """
@@ -53,9 +47,6 @@ def read_images(path):
     return X, y
 
 
-# In[4]:
-
-
 def shuffle_data(X, y):  
     """
     Shuffle data samples and their corresponding labels.
@@ -85,9 +76,6 @@ def shuffle_data(X, y):
     return X_shuffled, y_shuffled
 
 
-# In[5]:
-
-
 def create_dataloader(X, y, batch_size, shuffle=True):
     """
     Create a PyTorch DataLoader from input data and labels.
@@ -114,31 +102,25 @@ def create_dataloader(X, y, batch_size, shuffle=True):
     return loader
 
 
-# In[11]:
+# # setting the path to dataset
+# train_path = "/Users/pratikkadlak/Pratik/DeepLearning/DL_Assignment_2/inaturalist_12K/train"
+# test_path = "/Users/pratikkadlak/Pratik/DeepLearning/DL_Assignment_2/inaturalist_12K/val"
 
+# # reading the images 
+# X_train, y_train = read_images(train_path)
+# X_test, y_test = read_images(test_path)
 
-# setting the path to dataset
-train_path = "/Users/pratikkadlak/Pratik/DeepLearning/DL_Assignment_2/inaturalist_12K/train"
-test_path = "/Users/pratikkadlak/Pratik/DeepLearning/DL_Assignment_2/inaturalist_12K/val"
+# # shuffling the data
+# X_train, y_train = shuffle_data(X_train, y_train)
 
-# reading the images 
-X_train, y_train = read_images(train_path)
-X_test, y_test = read_images(test_path)
-
-# shuffling the data
-X_train, y_train = shuffle_data(X_train, y_train)
-
-# making data loaders
-train_loader = create_dataloader(X_train, y_train, 32)
-test_loader = create_dataloader(X_test, y_test, 32)
+# # making data loaders
+# train_loader = create_dataloader(X_train, y_train, 32)
+# test_loader = create_dataloader(X_test, y_test, 32)
 
 
 # # Question 2
 
 # ## GoogleNet
-
-# In[ ]:
-
 
 """
 Fine-tune a pre-trained GoogLeNet model on a custom dataset.
@@ -153,78 +135,50 @@ the model's accuracy on a test dataset after each epoch. The trained model is sa
 
 """
 
-# Define GoogLeNet model
-model = models.googlenet(pretrained=True)  # Load pre-trained weights
-num_classes = 10
-model.fc = nn.Linear(model.fc.in_features, num_classes)  # Modify final FC layer
+def train_googlenet():
+    # Define GoogLeNet model
+    model = models.googlenet(pretrained=True)  # Load pre-trained weights
+    num_classes = 10
+    model.fc = nn.Linear(model.fc.in_features, num_classes)  # Modify final FC layer
 
-# Define loss function and optimizer
-criterion = nn.CrossEntropyLoss()
-optimizer = torch.optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
+    # Define loss function and optimizer
+    criterion = nn.CrossEntropyLoss()
+    optimizer = torch.optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
 
-# Access GPU if available
-device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
-model.to(device)
-
-# Train the model
-# num_epochs = 10
-# for epoch in range(num_epochs):
-#     model.train()
-#     for images, labels in train_loader:
-#         images, labels = images.to(device), labels.to(device)
-#         optimizer.zero_grad()
-#         outputs = model(images)
-#         loss = criterion(outputs, labels)
-#         loss.backward()
-#         optimizer.step()
-
-#     # Evaluate the model
-#     model.eval()
-#     correct = 0
-#     total = 0
-#     with torch.no_grad():
-#         for images, labels in test_loader:
-#             images, labels = images.to(device), labels.to(device)
-#             outputs = model(images)
-#             _, predicted = torch.max(outputs.data, 1)
-#             total += labels.size(0)
-#             correct += (predicted == labels).sum().item()
-
-#     accuracy = 100 * correct / total
-#     print(f'Epoch {epoch+1}/{num_epochs}, Test Accuracy: {accuracy:.2f}%')
+    # Access GPU if available
+    device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
+    model.to(device)
 
 
-# Train the model
-num_epochs = 10  # Number of training epochs
-for epoch in range(num_epochs):
-    model.train()  # Set the model to training mode
-    for images, labels in train_loader:  # Iterate over batches of training data
-        images, labels = images.to(device), labels.to(device)  # Move data to device (CPU or GPU)
-        optimizer.zero_grad()  # Clear previous gradients
-        outputs = model(images)  # Forward pass: compute predicted outputs
-        loss = criterion(outputs, labels)  # Calculate the loss
-        loss.backward()  # Backward pass: compute gradients
-        optimizer.step()  # Update model parameters based on gradients
-
-    # Evaluate the model after each epoch
-    model.eval()  # Set the model to evaluation mode (disables dropout and batch normalization)
-    correct = 0  # Initialize number of correctly predicted samples
-    total = 0  # Initialize total number of samples
-    with torch.no_grad():  # Disable gradient tracking for evaluation
-        for images, labels in test_loader:  # Iterate over batches of test data
-            images, labels = images.to(device), labels.to(device)  # Move data to device
+    # Train the model
+    num_epochs = 10  # Number of training epochs
+    for epoch in range(num_epochs):
+        model.train()  # Set the model to training mode
+        for images, labels in train_loader:  # Iterate over batches of training data
+            images, labels = images.to(device), labels.to(device)  # Move data to device (CPU or GPU)
+            optimizer.zero_grad()  # Clear previous gradients
             outputs = model(images)  # Forward pass: compute predicted outputs
-            _, predicted = torch.max(outputs.data, 1)  # Get predicted labels
-            total += labels.size(0)  # Update total count of samples
-            correct += (predicted == labels).sum().item()  # Count correct predictions
+            loss = criterion(outputs, labels)  # Calculate the loss
+            loss.backward()  # Backward pass: compute gradients
+            optimizer.step()  # Update model parameters based on gradients
 
-    accuracy = 100 * correct / total  # Calculate accuracy percentage
-    print(f'Epoch {epoch+1}/{num_epochs}, Test Accuracy: {accuracy:.2f}%')  # Print test accuracy after each epoch
+        # Evaluate the model after each epoch
+        model.eval()  # Set the model to evaluation mode (disables dropout and batch normalization)
+        correct = 0  # Initialize number of correctly predicted samples
+        total = 0  # Initialize total number of samples
+        with torch.no_grad():  # Disable gradient tracking for evaluation
+            for images, labels in test_loader:  # Iterate over batches of test data
+                images, labels = images.to(device), labels.to(device)  # Move data to device
+                outputs = model(images)  # Forward pass: compute predicted outputs
+                _, predicted = torch.max(outputs.data, 1)  # Get predicted labels
+                total += labels.size(0)  # Update total count of samples
+                correct += (predicted == labels).sum().item()  # Count correct predictions
 
+        accuracy = 100 * correct / total  # Calculate accuracy percentage
+        print(f'Epoch {epoch+1}/{num_epochs}, Test Accuracy: {accuracy:.2f}%')  # Print test accuracy after each epoch
 
-
-# Save the trained model
-torch.save(model.state_dict(), 'googlenet_model.pth')
+    # Save the trained model
+    torch.save(model.state_dict(), 'googlenet_model.pth')
 
 
 # ## 1. Freezing all layers except the last layer:
@@ -232,7 +186,6 @@ torch.save(model.state_dict(), 'googlenet_model.pth')
 # - Fine-tune only the weights of the last layer during training.
 
 # In[ ]:
-
 
 """
 Train a model using a pre-trained GoogLeNet architecture for a specific classification task.
@@ -247,45 +200,31 @@ Args:
 - num_epochs (int): Number of training epochs (default is 10).
 """
 
-
-# num_classes is the number of classes in your dataset
-num_classes = 10
-
-# Load pre-trained GoogLeNet
-model = models.googlenet(pretrained=True)
-
-# Freeze all layers except the last layer
-for param in model.parameters():
-    param.requires_grad = False
-
-# Modify the last layer for your specific classification task
-num_ftrs = model.fc.in_features
-model.fc = nn.Linear(num_ftrs, num_classes) 
-
-# Access GPU if available
-device = "mps" if torch.backends.mps.is_available() else "cpu"
-# device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model.to(device)
-
-# Define optimizer and loss function
-optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
-criterion = nn.CrossEntropyLoss()
-
 # Train the model
-def train_model(model, criterion, optimizer, train_loader, num_epochs=10):
-    """
-    Train a neural network model using the specified criterion, optimizer, and data loader for a certain number of epochs.
+def freeze_all(num_epochs=10):
+    # num_classes is the number of classes in your dataset
+    num_classes = 10
 
-    Args:
-    - model (torch.nn.Module): The neural network model to train.
-    - criterion (torch.nn.Module): The loss function used for optimization.
-    - optimizer (torch.optim.Optimizer): The optimizer for updating model parameters.
-    - train_loader (torch.utils.data.DataLoader): DataLoader for training data.
-    - num_epochs (int): Number of training epochs (default is 10).
+    # Load pre-trained GoogLeNet
+    model = models.googlenet(pretrained=True)
 
-    Returns:
-    - None
-    """
+    # Freeze all layers except the last layer
+    for param in model.parameters():
+        param.requires_grad = False
+
+    # Modify the last layer for your specific classification task
+    num_ftrs = model.fc.in_features
+    model.fc = nn.Linear(num_ftrs, num_classes) 
+
+    # Access GPU if available
+    device = "mps" if torch.backends.mps.is_available() else "cpu"
+    # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model.to(device)
+
+    # Define optimizer and loss function
+    optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+    criterion = nn.CrossEntropyLoss()
+
     for epoch in range(num_epochs):
         model.train()
         running_loss = 0.0
@@ -307,11 +246,6 @@ def train_model(model, criterion, optimizer, train_loader, num_epochs=10):
         epoch_loss = running_loss / len(train_loader)
         epoch_accuracy = correct_predictions / total_predictions
         print(f'Epoch {epoch+1}/{num_epochs}, Loss: {epoch_loss:.4f}, Accuracy: {epoch_accuracy:.4f}')
-
-train_model(model, criterion, optimizer, train_loader)
-
-
-# In[16]:
 
 
 def test_model(model, criterion, test_loader):
@@ -345,61 +279,44 @@ def test_model(model, criterion, test_loader):
     test_accuracy = correct_predictions / total_predictions
     print(f'Test Loss: {test_loss:.4f}, Test Accuracy: {test_accuracy:.4f}')
 
-test_model(model, criterion, test_loader)
-
 
 # ## 2. Fine-tuning up to a certain number of layers:
 # 
 # - Freeze the initial layers (e.g., convolutional layers) and fine-tune only the later layers (e.g., fully connected layers).
 # - Experiment with different values of 'k' to find the optimal number of layers to fine-tune.
 
-# In[ ]:
-
-
-# Load pre-trained GoogLeNet
-model = models.googlenet(pretrained=True)
-
-# Define the number of layers to fine-tune (k)
-k = 5  # Example: Fine-tune the last 5 layers
-
-# Freeze layers up to k
-if k > 0:
-    for i, child in enumerate(model.children()):
-        if i < k:
-            for param in child.parameters():
-                param.requires_grad = False
-        else:
-            break
-
-# Modify the classifier for your specific classification task
-num_ftrs = model.fc.in_features
-num_classes = 10  # Change this to your actual number of classes
-model.fc = nn.Linear(num_ftrs, num_classes)
-
-# Move the model to GPU if available
-# device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-device = "mps" if torch.backends.mps.is_available() else "cpu"
-model = model.to(device)
-
-# Define optimizer and loss function
-optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
-criterion = nn.CrossEntropyLoss()
 
 # Train the model
-def train_model(model, criterion, optimizer, train_loader, num_epochs=10):
-    """
-    Load a pre-trained GoogLeNet model and fine-tune it for a specific classification task.
+def freeze_k_layers(num_epochs=10):
+    # Load pre-trained GoogLeNet
+    model = models.googlenet(pretrained=True)
 
-    Parameters:
-    - model (nn.Module): Pre-trained GoogLeNet model.
-    - criterion (torch.nn.modules.loss._Loss): Loss function.
-    - optimizer (torch.optim.optimizer.Optimizer): Optimizer for training.
-    - train_loader (torch.utils.data.DataLoader): DataLoader for training data.
-    - num_epochs (int): Number of training epochs (default is 10).
+    # Define the number of layers to fine-tune (k)
+    k = 5  # Example: Fine-tune the last 5 layers
 
-    Returns:
-    - None
-    """
+    # Freeze layers up to k
+    if k > 0:
+        for i, child in enumerate(model.children()):
+            if i < k:
+                for param in child.parameters():
+                    param.requires_grad = False
+            else:
+                break
+
+    # Modify the classifier for your specific classification task
+    num_ftrs = model.fc.in_features
+    num_classes = 10  # Change this to your actual number of classes
+    model.fc = nn.Linear(num_ftrs, num_classes)
+
+    # Move the model to GPU if available
+    # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    device = "mps" if torch.backends.mps.is_available() else "cpu"
+    model = model.to(device)
+
+    # Define optimizer and loss function
+    optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+    criterion = nn.CrossEntropyLoss()
+
     model.train()
     for epoch in range(num_epochs):
         running_loss = 0.0
@@ -421,10 +338,6 @@ def train_model(model, criterion, optimizer, train_loader, num_epochs=10):
         epoch_accuracy = correct_preds / total_preds
         print(f'Epoch {epoch+1}/{num_epochs}, Loss: {epoch_loss:.4f}, Accuracy: {epoch_accuracy:.4f}')
 
-train_model(model, criterion, optimizer, train_loader)
-
-
-# In[18]:
 
 
 def test_model(model, criterion, test_loader):
@@ -458,8 +371,6 @@ def test_model(model, criterion, test_loader):
     test_accuracy = correct_predictions / total_predictions
     print(f'Test Loss: {test_loss:.4f}, Test Accuracy: {test_accuracy:.4f}')
 
-test_model(model, criterion, test_loader)
-
 
 # ## 3. Feature extraction using pre-trained models:
 # 
@@ -467,15 +378,6 @@ test_model(model, criterion, test_loader)
 # - Remove the final classification layer and use the extracted features as inputs to a smaller model (e.g., a simple feedforward neural network).
 # - Train the smaller model on the extracted features to classify images.
 
-# In[19]:
-
-
-# Set device (GPU if available, otherwise CPU)
-device = "mps" if torch.backends.mps.is_available() else "cpu"
-
-# Load pre-trained GoogLeNet without the final classification layer
-googlenet = models.googlenet(pretrained=True).to(device)
-googlenet = nn.Sequential(*list(googlenet.children())[:-1])  # Remove the final layer
 
 # Define a smaller feedforward neural network for classification
 class SimpleClassifier(nn.Module):
@@ -491,89 +393,92 @@ class SimpleClassifier(nn.Module):
         x = self.fc2(x)
         return x
 
-# Extract features using GoogLeNet
-features_list = []
-labels_list = []
-with torch.no_grad():
-    for images, labels in tqdm(train_loader):
-        images = images.to(device)
-        features = googlenet(images).squeeze()  # Remove the batch dimension
-        features_list.append(features)
-        labels_list.append(labels)
 
-# Concatenate features and labels
-features = torch.cat(features_list, dim=0).to(device)
-labels = torch.cat(labels_list, dim=0).to(device)
+def feature_extraction_model():
+    # Set device (GPU if available, otherwise CPU)
+    device = "mps" if torch.backends.mps.is_available() else "cpu"
 
-# Define the input size for the classifier based on the extracted features
-input_size = features.size(1)
+    # Load pre-trained GoogLeNet without the final classification layer
+    googlenet = models.googlenet(pretrained=True).to(device)
+    googlenet = nn.Sequential(*list(googlenet.children())[:-1])  # Remove the final layer
 
-# Initialize the simple classifier and move it to the device
-classifier = SimpleClassifier(input_size, hidden_size=128, num_classes=10).to(device)
+    # Extract features using GoogLeNet
+    features_list = []
+    labels_list = []
+    with torch.no_grad():
+        for images, labels in tqdm(train_loader):
+            images = images.to(device)
+            features = googlenet(images).squeeze()  # Remove the batch dimension
+            features_list.append(features)
+            labels_list.append(labels)
 
-# Define loss function and optimizer
-criterion = nn.CrossEntropyLoss()
-optimizer = torch.optim.Adam(classifier.parameters(), lr=0.001)
+    # Concatenate features and labels
+    features = torch.cat(features_list, dim=0).to(device)
+    labels = torch.cat(labels_list, dim=0).to(device)
+
+    # Define the input size for the classifier based on the extracted features
+    input_size = features.size(1)
+
+    # Initialize the simple classifier and move it to the device
+    classifier = SimpleClassifier(input_size, hidden_size=128, num_classes=10).to(device)
+
+    # Define loss function and optimizer
+    criterion = nn.CrossEntropyLoss()
+    optimizer = torch.optim.Adam(classifier.parameters(), lr=0.001)
+
+    # Train the classifier on the extracted features
+    num_epochs = 10
+    for epoch in range(num_epochs):
+        classifier.train()  # Set the model to training mode
+        optimizer.zero_grad()
+        outputs = classifier(features)
+        loss = criterion(outputs, labels)
+        loss.backward()
+        optimizer.step()
+
+        # Calculate accuracy
+        _, predicted = torch.max(outputs, 1)
+        correct = (predicted == labels).sum().item()
+        accuracy = correct / labels.size(0) * 100
+
+        print(f'Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item()}, Accuracy: {accuracy:.2f}%')
+
+    # if you want to test the model on test data
+    test_feature_extraction_model(classifier=classifier, googlenet=googlenet)
 
 
-# In[20]:
+def test_feature_extraction_model(classifier, googlenet):
+    # Initialize lists to store predicted labels and ground truth labels
+    predicted_labels = []
+    true_labels = []
 
+    # Switch the model to evaluation mode
+    classifier.eval()
 
-# Train the classifier on the extracted features
-num_epochs = 10
-for epoch in range(num_epochs):
-    classifier.train()  # Set the model to training mode
-    optimizer.zero_grad()
-    outputs = classifier(features)
-    loss = criterion(outputs, labels)
-    loss.backward()
-    optimizer.step()
+    # Iterate over the test_loader
+    with torch.no_grad():
+        for images, labels in tqdm(test_loader):
+            images = images.to(device)
+            features = googlenet(images).squeeze()  # Extract features using GoogLeNet
+            outputs = classifier(features)  # Get predictions from the classifier
+            _, predicted = torch.max(outputs, 1)  # Get the predicted labels
+            predicted_labels.extend(predicted.cpu().numpy())  # Append predicted labels to the list
+            true_labels.extend(labels.cpu().numpy())  # Append true labels to the list
+
+    # Convert lists to NumPy arrays for easier analysis
+    predicted_labels = np.array(predicted_labels)
+    true_labels = np.array(true_labels)
 
     # Calculate accuracy
-    _, predicted = torch.max(outputs, 1)
-    correct = (predicted == labels).sum().item()
-    accuracy = correct / labels.size(0) * 100
-
-    print(f'Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item()}, Accuracy: {accuracy:.2f}%')
-
-
-# In[21]:
-
-
-# Initialize lists to store predicted labels and ground truth labels
-predicted_labels = []
-true_labels = []
-
-# Switch the model to evaluation mode
-classifier.eval()
-
-# Iterate over the test_loader
-with torch.no_grad():
-    for images, labels in tqdm(test_loader):
-        images = images.to(device)
-        features = googlenet(images).squeeze()  # Extract features using GoogLeNet
-        outputs = classifier(features)  # Get predictions from the classifier
-        _, predicted = torch.max(outputs, 1)  # Get the predicted labels
-        predicted_labels.extend(predicted.cpu().numpy())  # Append predicted labels to the list
-        true_labels.extend(labels.cpu().numpy())  # Append true labels to the list
-
-# Convert lists to NumPy arrays for easier analysis
-predicted_labels = np.array(predicted_labels)
-true_labels = np.array(true_labels)
-
-# Calculate accuracy
-accuracy = np.mean(predicted_labels == true_labels) * 100
-print(f'Testing Accuracy: {accuracy:.2f}%')
+    accuracy = np.mean(predicted_labels == true_labels) * 100
+    print(f'Testing Accuracy: {accuracy:.2f}%')
 
 
 # ## Question 3
 # 
 # - Fine Tuning the Feature Extracted Model
 
-# In[6]:
-
-
-def read_images(path, batch_size):
+def custom_read_images(path, batch_size):
     """
     Read images from a specified path using PyTorch's DataLoader and apply transformations.
 
@@ -604,24 +509,6 @@ def read_images(path, batch_size):
     return X, y
 
 
-# In[7]:
-
-
-train_path = "/Users/pratikkadlak/Pratik/DeepLearning/DL_Assignment_2/inaturalist_12K/train"
-test_path = "/Users/pratikkadlak/Pratik/DeepLearning/DL_Assignment_2/inaturalist_12K/val"
-
-X_train, y_train = read_images(train_path, 32)
-X_test, y_test = read_images(test_path, 32)
-
-X_train, y_train = shuffle_data(X_train, y_train)
-
-train_loader = create_dataloader(X_train, y_train, 32)
-test_loader = create_dataloader(X_test, y_test, 32)
-
-
-# In[8]:
-
-
 def augment_data():
     """
     Augment data in a DataLoader using various transformations and return an augmented DataLoader.
@@ -650,9 +537,6 @@ def augment_data():
     augmented_dataset = ConcatDataset([train_loader.dataset, train_loader_copy.dataset])
     aug_loader = DataLoader(augmented_dataset, batch_size=train_loader.batch_size, shuffle=True)
     return aug_loader
-
-
-# In[13]:
 
 
 # Define a smaller feedforward neural network for classification
@@ -700,16 +584,9 @@ class SimpleClassifier(nn.Module):
         x = self.fc2(x)
         return x
 
-
-# In[14]:
-
-
 # Set device (GPU if available, otherwise CPU)
 # device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 device = "mps" if torch.backends.mps.is_available() else "cpu"
-
-
-# In[15]:
 
 
 def extract_features():
@@ -740,9 +617,6 @@ def extract_features():
     labels = torch.cat(labels_list, dim=0).to(device)
     
     return googlenet, features, labels
-
-
-# In[16]:
 
 
 def evaluate_model(googlenet, classifier, test_loader):
@@ -784,20 +658,9 @@ def evaluate_model(googlenet, classifier, test_loader):
     return accuracy
 
 
-# In[17]:
 
-
-def train_model(config):
-    """
-    Train a simple classifier model using extracted features from a pre-trained GoogLeNet model.
-
-    Args:
-    - config: A configuration object containing hyperparameters and settings for training.
-
-    Returns:
-    - None
-    """
-    if config.data_augment == "Yes":
+def train_model(args):
+    if args.data_augment == "Yes":
         data_loader = augment_data()
         train_loader = data_loader
     
@@ -809,16 +672,16 @@ def train_model(config):
     features, labels = features.to(device), labels.to(device)
 
     # Initialize the simple classifier and move it to the device
-    classifier = SimpleClassifier(input_size, config.activation_func, config.dropout, config.prob, config.hidden_units, num_classes=10).to(device)
+    classifier = SimpleClassifier(input_size, args.activation_func, args.dropout, args.prob, args.hidden_units, num_classes=10).to(device)
 
     # Define loss function and optimizer
     criterion = nn.CrossEntropyLoss()
 
     # Trying Different Optimizers 
-    if config.optimizer == "SGD": optimizer = torch.optim.SGD(classifier.parameters(), lr=0.001) 
-    elif config.optimizer == "Adam": optimizer = torch.optim.Adam(classifier.parameters(), lr=0.001) 
-    elif config.optimizer == "NAdam": optimizer = torch.optim.NAdam(classifier.parameters(), lr=0.001) 
-    elif config.optimizer == "RMSprop": optimizer = torch.optim.RMSprop(classifier.parameters(), lr=0.001) 
+    if args.optimizer == "SGD": optimizer = torch.optim.SGD(classifier.parameters(), lr=0.001) 
+    elif args.optimizer == "Adam": optimizer = torch.optim.Adam(classifier.parameters(), lr=0.001) 
+    elif args.optimizer == "NAdam": optimizer = torch.optim.NAdam(classifier.parameters(), lr=0.001) 
+    elif args.optimizer == "RMSprop": optimizer = torch.optim.RMSprop(classifier.parameters(), lr=0.001) 
         
     # optimizer = torch.optim.Adam(classifier.parameters(), lr=0.001)
     # optimizer = torch.optim.NAdam(classifier.parameters(), lr=0.001)
@@ -826,11 +689,11 @@ def train_model(config):
     # Best Optimizer working is Adam for this problem so trying to change parameters values
     # optimizer = torch.optim.Adam(classifier.parameters(), lr=0.001, weight_decay=0.0005)
     
-    run_name = f"epoch_{config.epoch}_opt_{config.optimizer}_act_{config.activation_func}_augment_{config.data_augment}_dropout_{config.dropout}_prob_{config.prob}_hu_{config.hidden_units}"
+    run_name = f"epoch_{args.epoch}_opt_{args.optimizer}_act_{args.activation_func}_augment_{args.data_augment}_dropout_{args.dropout}_prob_{args.prob}_hu_{args.hidden_units}"
 
 
     # Train the classifier on the extracted features
-    num_epochs = config.epoch # for 100 epoch this gives accuracy trian_accuracy of 89.52 %
+    num_epochs = args.epoch # for 100 epoch this gives accuracy trian_accuracy of 89.52 %
     for epoch in range(num_epochs):
         classifier.train()  # Set the model to training mode
         optimizer.zero_grad()
@@ -852,65 +715,33 @@ def train_model(config):
     wandb.run.save()
     wandb.run.finish()
 
+parser = argparse.ArgumentParser(description='Parameters')
 
-# In[18]:
+parser.add_argument('-wp', '--wandb_project', type=str, default='DL_Assignment_2',help='Project name used to track experiments in Weights & Biases dashboard.')
+parser.add_argument('-we', '--wandb_entity', type=str, default='space_monkeys',help='Wandb Entity used to track experiments in the Weights & Biases dashboard.')
+parser.add_argument('-e', '--epoch', type=int, default=10, choices=[10, 20, 30],help='Number of epochs to train neural network.')
+parser.add_argument('-b', '--batch_size', type=int, default=32, choices=[16, 32, 64],help='Batch Size.')
+parser.add_argument('-a', '--activation_func', type=str, default='ReLU', choices=['ReLU', 'GELU', 'SiLU', 'Mish'], help='Choices: ["ReLU", "GELU", "SiLU", "Mish"]')
+parser.add_argument('-da', '--data_augment', type=str, default='No', choices=["Yes", "No"],help='Whether to apply data augmentation or not.')
+parser.add_argument('-d', '--dropout', type=str, default='No', choices=['Yes', 'No'], help='Whether to apply dropout or not.')
+parser.add_argument('-p', '--prob', type=float, default=0.2, choices=[0.2, 0.3], help='Probability value for dropout.')
+parser.add_argument('-hu', '--hidden_units', type=int, default=256, choices=[256, 512, 1024], help='Number of hidden units.')
+parser.add_argument('-o', '--optimizer', type=str, default='Adam', choices=["SGD", "Adam", "NAdam", "RMSprop"],help='Optimizer choice.')
+parser.add_argument('-tdp', '--train_dataset_path', type=str, help='Path to the train dataset.')
+parser.add_argument('-tep', '--test_dataset_path', type=str, help='Path to the test dataset.')
 
+args = parser.parse_args()
 
-sweep_config = {
-"name": "PartB_FineTuning",
-"metric": {
-    "name":"test_accuracy",
-    "goal": "maximize"
-},
-"method": "bayes",
-"parameters": {
-        "epoch": {
-            "values": [10, 20, 30]
-        },
-        "activation_func": {
-            "values": ["ReLU", "GELU", "SiLU", "Mish"]
-        },
-        "data_augment": {
-            "values": ["Yes", "No"]
-        },
-        "dropout": {
-            "values": ["Yes", "No"]
-        },
-        "prob": {
-            "values": [0.2, 0.3]
-        },
-        "hidden_units": {
-            "values": [256, 512, 1024]
-        },
-        "optimizer": {
-            "values": ["SGD", "Adam", "NAdam", "RMSprop"]
-        }
-    
-    }
-}
+train_path = args.train_dataset_path
+test_path = args.test_dataset_path
+
+X_train, y_train = custom_read_images(train_path, args.batch_size)
+X_test, y_test = custom_read_images(test_path, args.batch_size)
+
+X_train, y_train = shuffle_data(X_train, y_train)
+
+train_loader = create_dataloader(X_train, y_train, args.batch_size)
+test_loader = create_dataloader(X_test, y_test, args.batch_size)
 
 
-# In[21]:
-
-
-def train():
-    """
-    Initialize a Weights & Biases run and train a CNN model using the configured hyperparameters.
-
-    Uses the `wandb.sweep` function to create a sweep with the specified configuration,
-    then runs the training process using the `wandb.agent` function.
-    """
-    with wandb.init(project="DL_Assignment_2") as run:
-        config = wandb.config
-        train_model(config)
-
-sweep_id = wandb.sweep(sweep_config, project = "DL_Assignment_2")
-wandb.agent(sweep_id, train, count = 1)
-wandb.finish()
-
-
-# In[ ]:
-
-
-
-
+train_model(args)
